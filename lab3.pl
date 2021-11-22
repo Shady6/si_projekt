@@ -17,11 +17,11 @@ even(zero).
 times(zero,X,zero):-isnumber(X).
 times(s(X),Y,Z):-times(X,Y,Q),add(Y,Q,Z).
 
-quotient(zero, X, zero) :- X\=zero,isnumber(X),!.
-quotient(s(X), Y, Z) :- Y\=zero,times(Y,Z,Q),isequal(s(X), Q),!.
+quotient(X,Y,zero):-Y\=zero, lessthanequal(X,Y), not(isequal(X,Y)).
+quotient(X,Y,s(Z)):-Y\=zero, add(Q,Y,X), quotient(Q,Y,Z), !.
 
-remainder(X,Y,R):-Y\=zero, lessthanequal(X,Y), R=X.
-remainder(X,Y,R):-Y\=zero, add(Q,Y,X), remainder(Q,Y,R).
+remainder(X,Y,R):-Y\=zero, lessthanequal(X,Y), not(isequal(X,Y)), R=X, !.
+remainder(X,Y,R):-Y\=zero, add(Q,Y,X), remainder(Q,Y,R), !.
 
 fact(zero,s(zero)).
 fact(s(N),X):-fact(N,Q),times(Q,s(N),X).
