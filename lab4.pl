@@ -5,13 +5,13 @@ concat([], Y, Y).
 concat([X|Tx], Y, [X|Z]):-concat(Tx,Y,Z).
 
 delete(A, [A|B], B) :- !.
-delete(A, B, B) :- not(member(A,B)), !.
+delete(A, B, B) :- not(member(A, B)), !.
 delete(A, [B, C|D], [B|E]) :- delete(A, [C|D], E).
 
-len([],0).
-len([_|T],Z):-len(T,Y), Z is Y+1.
+len([], 0).
+len([_|T], X) :- len(T, Y), X is Y + 1.
 
-rlen([],0):-!.
+rlen([],0) :- !.
 rlen([H|T],X):-rlen(H,Q1),rlen(T,Q2),X is Q1+Q2,!.
 rlen(_,1):-!.
 
@@ -23,7 +23,7 @@ reverse2([H|T],Acc,L):-reverse2(T,[H|Acc],L).
 sum([],0).
 sum([X|T],N):-sum(T,Y), N is Y+X.
 
-avg(X,N):-sum(X,Y),len(X,L), L\=0,N is Y/L.
+avg(X,N):-sum(X,Y),len(X,L),L\=0,N is Y/L.
 
 count(_, [], 0) :- !.
 count(X,[X|T],N):-count(X,T,Y), N is Y+1, !.
@@ -32,6 +32,8 @@ count(X,[_|T], N):-count(X,T,N).
 double([],[]):-!.
 double([X|T1],[X,X|T2]):-double(T1,T2).
 
-sort1([]):-!.
-sort1([_]):-!.
-sort1([X,Y|T]):-X<Y,sort1([Y|T]).
+sort([]) :- !.
+sort([_]) :- !.
+sort([H1, H2|T]) :- H1=<H2,sort([H2|T]).
+
+naivesort(X, Y) :- permutation(X,Y),sort(Y),!.
